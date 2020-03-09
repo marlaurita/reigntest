@@ -25,6 +25,10 @@ class ListViewModel (application: Application) : AndroidViewModel(application){
         fetchReports()
     }
 
+    fun deleteReportDatabase(report: Report) {
+        repository.deleteReport(report)
+    }
+
     private fun fetchReports() {
         loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {

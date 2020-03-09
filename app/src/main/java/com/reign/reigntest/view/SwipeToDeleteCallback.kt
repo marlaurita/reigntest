@@ -1,11 +1,9 @@
-package com.reign.reigntest.viewmodel
+package com.reign.reigntest.view
 
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

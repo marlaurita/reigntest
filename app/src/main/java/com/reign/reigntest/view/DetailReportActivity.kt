@@ -1,4 +1,4 @@
-package com.reign.reigntest.viewmodel
+package com.reign.reigntest.view
 
 import android.os.Bundle
 import android.widget.TextView

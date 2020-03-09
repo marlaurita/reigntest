@@ -1,4 +1,4 @@
-package com.reign.reigntest
+package com.reign.reigntest.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,11 +12,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.reign.reigntest.R
 import com.reign.reigntest.model.Report
-import com.reign.reigntest.view.OnItemClickListener
-import com.reign.reigntest.view.ReportListAdapter
-import com.reign.reigntest.viewmodel.DetailReportActivity
-import com.reign.reigntest.viewmodel.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
@@ -48,8 +45,8 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-                reportAdapter.removeAt(viewHolder.adapterPosition)
+                val report = reportAdapter.removeAt(viewHolder.adapterPosition)
+                viewModel.deleteReportDatabase(report)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)

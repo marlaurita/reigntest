@@ -22,6 +22,10 @@ class ReportRepository(application: Application) : CoroutineScope {
 
     fun getReports() = reportDAO?.getAll()
 
+    fun deleteReport(report: Report) {
+        launch { deleteReport(report) }
+    }
+
     fun setReport(report: List<Report>) {
         launch  { setReportBG(report) }
     }
@@ -29,6 +33,12 @@ class ReportRepository(application: Application) : CoroutineScope {
     private suspend fun setReportBG(report: List<Report>){
         withContext(Dispatchers.IO){
             reportDAO?.insertAll(*report.toTypedArray())
+        }
+    }
+
+    private suspend fun deleteReportBG(report: Report){
+        withContext(Dispatchers.IO){
+            reportDAO?.delete(report)
         }
     }
 
