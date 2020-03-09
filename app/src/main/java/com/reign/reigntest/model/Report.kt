@@ -1,6 +1,9 @@
 package com.reign.reigntest.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -10,18 +13,19 @@ data class  ResponseHits (
 )
 
 @Parcelize
+@Entity
 data class Report (
     @SerializedName("story_title")
-    val storyTitle : String?,
+    @ColumnInfo(name = "storyTitle") val storyTitle : String?,
     @SerializedName("title")
-    val title : String?,
+    @ColumnInfo(name = "title")val title : String?,
     @SerializedName("author")
-    val author : String?,
+    @ColumnInfo(name = "author")val author : String?,
     @SerializedName("comment_text")
-    val commentText : String?,
+    @ColumnInfo(name = "commentText")val commentText : String?,
     @SerializedName("created_at")
-    val createdAt : String?,
+    @ColumnInfo(name = "created_at")val createdAt : String?,
     @SerializedName("objectID")
-    val id: String
+    @PrimaryKey val id: String
 
 ) : Parcelable

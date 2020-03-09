@@ -1,12 +1,10 @@
 package com.reign.reigntest
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.reign.reigntest.viewmodel.ListViewModel
 import androidx.lifecycle.ViewModelProviders
@@ -63,11 +61,32 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
     }
 
-    fun observeViewModel() {
-        viewModel.news.observe(this, Observer {reports ->
+    private fun observeViewModel() {
+        viewModel.reports.observe(this, Observer {reports ->
             reports?.let {
-                reports_list.visibility = View.VISIBLE
-                reportAdapter.updateReports(it) }
+                if (reports.isNotEmpty()) {
+                    reports_list.visibility = View.VISIBLE
+                    reportAdapter.updateReports(it)
+                    list_error.visibility = View.GONE
+                } else {
+                    reports_list.visibility = View.GONE
+                    list_error.visibility = View.VISIBLE
+                }
+            }
+        })
+
+        viewModel.reportLoadError.observe(this, Observer { isError ->
+            list_error.visibility = if(isError == "") View.GONE else View.VISIBLE
+        })
+
+        viewModel.loading.observe(this, Observer { isLoading ->
+            isLoading?.let {
+                loading_view.visibility = if(it) View.VISIBLE else View.GONE
+                if(it) {
+                    list_error.visibility = View.GONE
+                    reports_list.visibility = View.GONE
+                }
+            }
         })
     }
 
