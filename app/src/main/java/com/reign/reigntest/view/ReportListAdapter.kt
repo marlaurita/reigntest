@@ -26,12 +26,12 @@ class ReportListAdapter (var reports : ArrayList<Report>, val itemClickListener:
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
         holder.bind(reports[position], itemClickListener)
     }
-    fun removeAt(i:Int){
+    fun removeAt(i:Int) : Report{
         val report:Report = reports.get(i);
         this.deletedKeys.add(report.id);
         reports.removeAt(i);
-
         notifyItemRemoved(i);
+        return report
     }
 
     class ReportViewHolder(view: View): RecyclerView.ViewHolder(view) {

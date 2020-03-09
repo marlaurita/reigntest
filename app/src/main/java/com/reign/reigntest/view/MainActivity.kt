@@ -1,12 +1,10 @@
-package com.reign.reigntest
+package com.reign.reigntest.view
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.reign.reigntest.viewmodel.ListViewModel
 import androidx.lifecycle.ViewModelProviders
@@ -14,11 +12,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.reign.reigntest.R
 import com.reign.reigntest.model.Report
-import com.reign.reigntest.view.OnItemClickListener
-import com.reign.reigntest.view.ReportListAdapter
-import com.reign.reigntest.viewmodel.DetailReportActivity
-import com.reign.reigntest.viewmodel.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
@@ -50,8 +45,8 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-                reportAdapter.removeAt(viewHolder.adapterPosition)
+                val report = reportAdapter.removeAt(viewHolder.adapterPosition)
+                viewModel.deleteReportDatabase(report)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
@@ -63,11 +58,32 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
     }
 
-    fun observeViewModel() {
-        viewModel.news.observe(this, Observer {reports ->
+    private fun observeViewModel() {
+        viewModel.reports.observe(this, Observer {reports ->
             reports?.let {
-                reports_list.visibility = View.VISIBLE
-                reportAdapter.updateReports(it) }
+                if (reports.isNotEmpty()) {
+                    reports_list.visibility = View.VISIBLE
+                    reportAdapter.updateReports(it)
+                    list_error.visibility = View.GONE
+                } else {
+                    reports_list.visibility = View.GONE
+                    list_error.visibility = View.VISIBLE
+                }
+            }
+        })
+
+        viewModel.reportLoadError.observe(this, Observer { isError ->
+            list_error.visibility = if(isError == "") View.GONE else View.VISIBLE
+        })
+
+        viewModel.loading.observe(this, Observer { isLoading ->
+            isLoading?.let {
+                loading_view.visibility = if(it) View.VISIBLE else View.GONE
+                if(it) {
+                    list_error.visibility = View.GONE
+                    reports_list.visibility = View.GONE
+                }
+            }
         })
     }
 
