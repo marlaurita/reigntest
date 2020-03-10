@@ -40,9 +40,10 @@ class ListViewModel (application: Application) : AndroidViewModel(application){
                 } else {
                     onError(response.message())
                 }
+                loading.value = false
             }
         }
-        loading.value = false
+
     }
 
     private fun onError(message: String) {

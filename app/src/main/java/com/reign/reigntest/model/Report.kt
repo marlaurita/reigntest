@@ -25,6 +25,8 @@ data class Report (
     @ColumnInfo(name = "commentText")val commentText : String?,
     @SerializedName("created_at")
     @ColumnInfo(name = "created_at")val createdAt : String?,
+    @SerializedName("story_url")
+    @ColumnInfo (name = "storyUrl")val storyUrl : String,
     @SerializedName("objectID")
     @PrimaryKey val id: String
 
