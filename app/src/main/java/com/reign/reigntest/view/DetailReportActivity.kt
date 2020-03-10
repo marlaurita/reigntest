@@ -14,7 +14,7 @@ class DetailReportActivity: AppCompatActivity (){
         setContentView(R.layout.activity_detail_report)
 
         val report: Report = intent.getParcelableExtra("report")
-        report_title.text = report.storyTitle ?: report.title;
+        webView.loadUrl(report.storyUrl)
 
     }
 }
